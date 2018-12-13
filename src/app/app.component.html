@@ -1,6 +1,25 @@
-<h1>Subjects - Angular</h1>
-<ul>
+<div class="grid-x grid-padding-x grid-padding-y">
   <ng-container *ngFor="let school of schools">
-    <p [innerHTML]="school.label.substring(0, school.label.indexOf(' - '))"><a href=""></a></p>
+    <div class="cell large-4">
+      <div class="card">
+        <div class="grid-x">
+          <div class="cell large-6 p-l-20 p-t-20 p-b-20 p-r-20">
+            <h2 class="h3">
+              <a href="https://www.ulster.ac.uk/courses?query=&f.Campus|campus={{ school.campus }}&f.School|school={{ school.school }}" [innerHTML]="school.label.substring(0, school.label.indexOf(' - '))"></a>
+            </h2>
+            <ng-container *ngFor="let schoolData of schoolsData">
+              <p *ngIf="schoolData.name == school.school" class="m-b-0"><small>{{ schoolData.description }}</small></p>
+            </ng-container>
+          </div>
+          <div class="cell large-6">
+            <ng-container *ngFor="let schoolData of schoolsData">
+              <a href="https://www.ulster.ac.uk/courses?query=&f.Campus|campus={{ school.campus }}&f.School|school={{ school.school }}">
+                <img *ngIf="schoolData.name == school.school" src="{{ schoolData.image }}" alt="{{ school.school }}">
+              </a>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
   </ng-container>
-</ul>
+</div>

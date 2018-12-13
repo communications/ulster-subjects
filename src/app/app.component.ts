@@ -21,14 +21,17 @@ export class AppComponent implements OnInit {
   title = 'Ulster University Subjects';
   //query = 'Jordanstown';
   private api: string = 'https://ulster.funnelback.co.uk/s/search.json?collection=ulster-dev&num_ranks=3000&sort=title';
+  //private dataapi: string = 'https://www.ulster.ac.uk/digital-prospectus/_web_services/static/4-6-18/faculties-and-schools';
+  private dataapi: string = 'http://localhost/faculties-and-schools.json';
   private schools: any = [];
+  private schoolsData: any = [];
   private subject: Subject<string> = new Subject();
 
   /*
    * API connect
    */
-  apiConnect(query) {
-    var req = this.http.get(this.api + query).map((res:Response) => res.json());
+  apiConnect(api, query) {
+    var req = this.http.get(api + query).map((res:Response) => res.json());
     return req;
   }
 
@@ -43,7 +46,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.schools = [];
-    var req = this.apiConnect('&f.Campus|campus=' + this.elementRef.nativeElement.getAttribute('query'));
+    var req = this.apiConnect(this.api, '&f.Campus|campus=' + this.elementRef.nativeElement.getAttribute('query'));
     req.subscribe(data => {
       data.response.resultPacket.results.forEach(course => {
         const exists = this.schools.indexOf(course.assetid) > -1;
@@ -72,6 +75,17 @@ export class AppComponent implements OnInit {
         return 0 //default return value (no sorting)
       });
     });
-  }
 
+    this.schoolsData = [];
+    var reqTwo = this.apiConnect(this.dataapi, '');
+    reqTwo.subscribe(data => {
+      data.forEach(school => {
+        this.schoolsData.push({
+          name: school.school_name,
+          description: school.school_description,
+          image: school.school_image_url
+        });
+      });
+    });
+  }
 }
