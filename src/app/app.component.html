@@ -1,25 +1,39 @@
-<div class="grid-x grid-padding-x grid-padding-y">
-  <ng-container *ngFor="let school of schools">
-    <div class="cell large-4">
-      <div class="card">
-        <div class="grid-x">
-          <div class="cell large-6 p-l-20 p-t-20 p-b-20 p-r-20">
-            <h2 class="h3">
-              <a href="https://www.ulster.ac.uk/courses?query=&f.Campus|campus={{ school.campus }}&f.School|school={{ school.school }}" [innerHTML]="school.label.substring(0, school.label.indexOf(' - '))"></a>
-            </h2>
-            <ng-container *ngFor="let schoolData of schoolsData">
-              <p *ngIf="schoolData.name == school.school" class="m-b-0"><small>{{ schoolData.description }}</small></p>
-            </ng-container>
+<div class="grid-container">
+  <div class="grid-x grid-padding-x grid-padding-y">
+    <ng-container *ngFor="let school of schools">
+      <div class="cell large-6">
+        <div class="media-object">
+          <div class="media-object-section">
+            <div class="thumbnail shadow">
+              <ng-container *ngIf="school.school !== 'The Business Institute'">
+                <ng-container *ngFor="let schoolData of schoolsData">
+                  <a href="https://www.ulster.ac.uk/courses?query=&f.Campus|campus={{ school.campus }}&f.School|school={{ school.school }}">
+                    <img *ngIf="schoolData.name == school.school" src="{{ schoolData.image }}" alt="{{ school.school }}" width="120">
+                  </a>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="school.school == 'The Business Institute'">
+                <a href="https://www.ulster.ac.uk/courses?query=&f.Campus|campus={{ school.campus }}&f.Faculty|faculty=Ulster+University+Business+School">
+                  <img src="https://www.ulster.ac.uk/__data/assets/image/0019/103753/RS5870_UU-Workplace-CH4056-lpr.jpg" alt="{{ school.school }}" width="120">
+                </a>
+              </ng-container>
+            </div>
           </div>
-          <div class="cell large-6">
+          <div class="media-object-section main-section">
+            <h3 class="h3">
+              <ng-container *ngIf="school.school !== 'The Business Institute'">
+                <a href="https://www.ulster.ac.uk/courses?query=&f.Campus|campus={{ school.campus }}&f.School|school={{ school.school }}" [innerHTML]="school.label.substring(0, school.label.indexOf(' - '))"></a>
+              </ng-container>
+              <ng-container *ngIf="school.school == 'The Business Institute'">
+                <a href="https://www.ulster.ac.uk/courses?query=&f.Campus|campus={{ school.campus }}&f.Faculty|faculty=Ulster+University+Business+School" [innerHTML]="school.label.substring(0, school.label.indexOf(' - '))"></a>
+              </ng-container>
+            </h3>
             <ng-container *ngFor="let schoolData of schoolsData">
-              <a href="https://www.ulster.ac.uk/courses?query=&f.Campus|campus={{ school.campus }}&f.School|school={{ school.school }}">
-                <img *ngIf="schoolData.name == school.school" src="{{ schoolData.image }}" alt="{{ school.school }}">
-              </a>
+              <p *ngIf="schoolData.name == school.school" class="m-b-0">{{ schoolData.description }}</p>
             </ng-container>
           </div>
         </div>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </div>

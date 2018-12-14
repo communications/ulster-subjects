@@ -19,11 +19,10 @@ export class AppComponent implements OnInit {
     private elementRef:ElementRef
   ){}
   title = 'Ulster University Subjects';
-  //query = 'Jordanstown';
   private api: string = 'https://ulster.funnelback.co.uk/s/search.json?collection=ulster-dev&num_ranks=3000&sort=title';
-  //private dataapi: string = 'https://www.ulster.ac.uk/digital-prospectus/_web_services/static/4-6-18/faculties-and-schools';
-  private dataapi: string = 'http://localhost/faculties-and-schools.json';
-  private schools: any = [];
+  private dataapi: string = 'https://www.ulster.ac.uk/digital-prospectus/_web_services/static/8-10-18/faculties-and-schools';
+  ////private dataapi: string = 'http://localhost/faculties-and-schools.json';
+  schools: any = [];
   private schoolsData: any = [];
   private subject: Subject<string> = new Subject();
 
@@ -58,11 +57,15 @@ export class AppComponent implements OnInit {
         //DEBUG
         //console.log(label);
         if (course.metaData.school) {
-          this.schools.push({
-            label: label,
-            school: course.metaData.school,
-            campus: course.metaData.campus
-          });
+          if (course.metaData.school == 'Centre for Flexible and Continuing Education') {
+            //do nothing
+          } else {
+            this.schools.push({
+              label: label,
+              school: course.metaData.school,
+              campus: course.metaData.campus
+            });
+          }
         }
       });
       this.schools = this.removeDuplicates(this.schools, 'label');
