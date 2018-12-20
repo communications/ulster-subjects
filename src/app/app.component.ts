@@ -45,7 +45,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.schools = [];
+
+    /* observable
+     * Observables provide support for passing messages between publishers and subscribers in your application.
+     * https://angular.io/guide/observables
+     */
     var req = this.apiConnect(this.api, '&f.Campus|campus=' + this.elementRef.nativeElement.getAttribute('query'));
+
+    /* subscribe to observable */
     req.subscribe(data => {
       data.response.resultPacket.results.forEach(course => {
         const exists = this.schools.indexOf(course.assetid) > -1;
