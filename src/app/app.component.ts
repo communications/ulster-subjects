@@ -20,11 +20,13 @@ export class AppComponent implements OnInit {
   ){}
   title = 'Ulster University Subjects';
   private api: string = 'https://ulster.funnelback.co.uk/s/search.json?collection=ulster-dev&num_ranks=3000&sort=title';
-  private dataapi: string = 'https://www.ulster.ac.uk/digital-prospectus/_web_services/static/8-10-18/faculties-and-schools';
-  ////private dataapi: string = 'http://localhost/faculties-and-schools.json';
+  private dataapi: string = 'https://www.ulster.ac.uk/_web_services/ulster/json/faculties-and-schools-static-json';
+  ////private dataapi: string = 'http://localhost:8888/faculties-and-schools.json';
   schools: any = [];
   private schoolsData: any = [];
   private subject: Subject<string> = new Subject();
+  subjects: any = [];
+  exists: any = "";
 
   /*
    * API connect
@@ -55,7 +57,7 @@ export class AppComponent implements OnInit {
     /* subscribe to observable */
     req.subscribe(data => {
       data.response.resultPacket.results.forEach(course => {
-        const exists = this.schools.indexOf(course.assetid) > -1;
+        this.exists = this.schools.indexOf(course.assetid);
         var label = course.metaData.school + ' - ' + course.metaData.campus;
         label = label.replace('School of', '');
         label = label.replace('Department of ', '');
@@ -78,11 +80,11 @@ export class AppComponent implements OnInit {
       this.schools = this.removeDuplicates(this.schools, 'label');
       this.schools = this.schools.sort(function(a, b){
         var nameA = a.label.toLowerCase(), nameB = b.label.toLowerCase()
-        if (nameA < nameB) //sort string ascending
+        if (nameA < nameB)
           return -1
         if (nameA > nameB)
           return 1
-        return 0 //default return value (no sorting)
+        return 0
       });
     });
 
