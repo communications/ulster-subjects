@@ -19,9 +19,9 @@ export class AppComponent implements OnInit {
     private elementRef:ElementRef
   ){}
   title = 'Ulster University Subjects';
-  private api: string = 'https://ulster.funnelback.co.uk/s/search.json?collection=ulster-dev&num_ranks=3000&sort=title';
+  private api: string = 'https://ulster-search.clients.uk.funnelback.com/s/search.json?collection=ulster-dev&num_ranks=3000&sort=title';
   private dataapi: string = 'https://www.ulster.ac.uk/_web_services/ulster/json/faculties-and-schools-static-json';
-  ////private dataapi: string = 'http://localhost:8888/faculties-and-schools.json';
+  ////private dataapi: string = 'http://localhost:8888/faculties-and-schools.json?v=1.1';
   schools: any = [];
   private schoolsData: any = [];
   private subject: Subject<string> = new Subject();
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
       data.response.resultPacket.results.forEach(course => {
         this.exists = this.schools.indexOf(course.assetid);
         var label = course.metaData.school + ' - ' + course.metaData.campus;
-        label = label.replace('School of', '');
+        label = label.replace('School of ', '');
         label = label.replace('Department of ', '');
         label = label.replace('Belfast ', '');
         label = label.replace('The Business Institute', 'Business');
